@@ -5,7 +5,7 @@
 # wlan_password="12345678"
 #
 # root_password=""
-lan_ip_address="192.168.88.199"
+# lan_ip_address="192.168.88.199"
 #
 # pppoe_username="123"
 # pppoe_password="456"
