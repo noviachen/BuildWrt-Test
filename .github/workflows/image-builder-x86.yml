@@ -1,4 +1,4 @@
-name: ImmortalWrt x86
+name: ImmortalWrt TEST v24.10
 on:
   push:
     branches: [ "master" ]
@@ -6,11 +6,11 @@ on:
 
 env:
   PROFILE: generic
-  UCI_CUSTOM_FILE: uci-custom-x86
-  PACKAGES_LIST_FILE: packages.list-x86
-  PACKAGES_FOLDER: packages-x86
+  UCI_CUSTOM_FILE: test/uci-custom
+  PACKAGES_LIST_FILE: test/packages.list
+  PACKAGES_FOLDER: test/packages
   # ROOTFS_PARTSIZE: 512   # Reconfigure the rootfs partition size (for x86 build only), variable set in MB
-  DOWNLOAD_URL: https://downloads.immortalwrt.org/releases/23.05.7/targets/x86/64/immortalwrt-imagebuilder-23.05.7-x86-64.Linux-x86_64.tar.xz
+  DOWNLOAD_URL: https://downloads.immortalwrt.org/releases/24.10.6/targets/x86/64/immortalwrt-imagebuilder-24.10.6-x86-64.Linux-x86_64.tar.zst
   TZ: Asia/Shanghai
 
 jobs:
@@ -26,16 +26,16 @@ jobs:
         DEBIAN_FRONTEND: noninteractive
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc wget unzip python3 qemu-utils genisoimage
+        sudo apt-get install -y build-essential libncurses5-dev libncursesw5-dev zlib1g-dev gawk git gettext libssl-dev xsltproc wget unzip python3 qemu-utils genisoimage zstd
 
     - name: Download and extract Image Builder
       run: |
-        wget -O /tmp/imagebuilder.tar.xz $DOWNLOAD_URL
-        sudo tar -C /tmp -xvf /tmp/imagebuilder.tar.xz
+        wget -O /tmp/imagebuilder.tar.zst $DOWNLOAD_URL
+        sudo tar -I zstd -C /tmp -xvf /tmp/imagebuilder.tar.zst
 
     - name: Set Image Builder root directory
       run: |
-        ROOT_DIRECTORY=$(basename $DOWNLOAD_URL .tar.xz)
+        ROOT_DIRECTORY=$(basename $DOWNLOAD_URL .tar.zst)
         echo "ROOT_DIRECTORY=/tmp/$ROOT_DIRECTORY" >> $GITHUB_ENV
 
     - name: Modify .config file
