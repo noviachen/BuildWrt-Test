@@ -13,6 +13,9 @@ env:
   DOWNLOAD_URL: https://downloads.immortalwrt.org/releases/25.12.1/targets/x86/64/immortalwrt-imagebuilder-25.12.1-x86-64.Linux-x86_64.tar.zst
   TZ: Asia/Shanghai
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -74,11 +77,22 @@ jobs:
         sudo mkdir -p /tmp/bin_firmware
         sudo find bin -type f -exec sudo cp {} /tmp/bin_firmware/ \;
 
-    - name: Upload firmware
-      uses: actions/upload-artifact@v4
+#    - name: Upload firmware
+#      uses: actions/upload-artifact@v4
+#      with:
+#        name: ImmortalWrt-firmware-${{ env.PROFILE }}-${{ env.FILE_DATE }}
+#        path: /tmp/bin_firmware
+
+    - name: Upload ImmortWrt as release assets
+      uses: softprops/action-gh-release@v3
       with:
-        name: ImmortalWrt-firmware-${{ env.PROFILE }}-${{ env.FILE_DATE }}
-        path: /tmp/bin_firmware
+        tag_name: TEST-firmware-${{ env.PROFILE }}
+        body: Built by GitHub Action
+        files: |
+          /tmp/bin_firmware/*.*
+        token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main

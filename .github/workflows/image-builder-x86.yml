@@ -86,8 +86,8 @@ jobs:
     - name: Upload ImmortWrt as release assets
       uses: softprops/action-gh-release@v3
       with:
-        tag_name: ImmortalWrt-x86_64
-        # body_path: ${{ github.workspace }}/README.md
+        tag_name: ImmortalWrt-firmware-${{ env.PROFILE }}
+        body: Built by GitHub Action
         files: |
           /tmp/bin_firmware/*.*
         token: ${{ secrets.GITHUB_TOKEN }}
