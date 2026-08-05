@@ -89,7 +89,7 @@ jobs:
         tag_name: ImmortalWrt-x86_64
         # body_path: ${{ github.workspace }}/README.md
         files: |
-          ${{ github.workspace }}/bin/targets/x86/64/*.*
+          /tmp/bin_firmware/*.*
         token: ${{ secrets.GITHUB_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
