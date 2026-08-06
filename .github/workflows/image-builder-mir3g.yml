@@ -73,11 +73,12 @@ jobs:
         cd $ROOT_DIRECTORY
         PACKAGES=$(cat $ROOT_DIRECTORY/files/packages.list | tr '\n' ' ')
         sudo make image PROFILE="$PROFILE" PACKAGES="$PACKAGES" FILES="files"
-        echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-        echo "RELEASE_DATE=$(date +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
         # Organize files
         sudo mkdir -p /tmp/bin_firmware
         sudo find bin -type f -exec sudo cp {} /tmp/bin_firmware/ \;
+        # Generate build timestamps (Using local timezone)
+        echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        echo "RELEASE_DATE=$(date +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
 
 #    - name: Upload firmware
 #      uses: actions/upload-artifact@v4
