@@ -94,14 +94,18 @@ jobs:
     - name: Upload ImmortWrt as release assets
       uses: softprops/action-gh-release@v3
       with:
-        name: ${{ env.DEVICE_NAME }} - ${{ env.FILE_DATE }}
-        tag_name: ${{ env.DEVICE_NAME }}
+        tag_name: ${{ env.DEVICE_NAME }} - ${{ env.FILE_DATE }}
         body: |
-          ImmortalWrt firmware built by GitHub Action
-          Date: ${{ env.RELEASE_DATE }}
+          ## ImmortalWrt Firmware
 
-          ### Release Notes
-          ${{ github.event.inputs.remarks}}
+          | Item | Value |
+          |---|---|
+          | Device | ${{ env.DEVICE_NAME }} |
+          | Profile | ${{ env.PROFILE }} |
+          | Build Date | ${{ env.RELEASE_DATE }} |
+
+          ## Notes
+          ${{ github.event.inputs.remarks }}
         files: |
           /tmp/bin_firmware/*squashfs*
         token: ${{ secrets.GITHUB_TOKEN }}
