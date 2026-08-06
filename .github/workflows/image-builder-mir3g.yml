@@ -6,6 +6,7 @@ on:
 
 env:
   PROFILE: xiaomi_mi-router-3g
+  DEVICE_NAME: Xiaomi_R3G # Custom display name
   UCI_CUSTOM_FILE: uci-custom-mir3g
   PACKAGES_LIST_FILE: packages.list-mir3g
   PACKAGES_FOLDER: packages-mir3g
@@ -73,6 +74,7 @@ jobs:
         PACKAGES=$(cat $ROOT_DIRECTORY/files/packages.list | tr '\n' ' ')
         sudo make image PROFILE="$PROFILE" PACKAGES="$PACKAGES" FILES="files"
         echo "FILE_DATE=$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        echo "RELEASE_DATE=$(date +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
         # Organize files
         sudo mkdir -p /tmp/bin_firmware
         sudo find bin -type f -exec sudo cp {} /tmp/bin_firmware/ \;
@@ -86,10 +88,12 @@ jobs:
     - name: Upload ImmortWrt as release assets
       uses: softprops/action-gh-release@v3
       with:
-        tag_name: Xiaomi_R3G
-        body: ImmortalWrt firmware built by GitHub Action
+        tag_name: ${{ env.DEVICE_NAME }}
+        body: |
+          ImmortalWrt firmware built by GitHub Action
+          Date: ${{ env.RELEASE_DATE }}
         files: |
-          /tmp/bin_firmware/*.bin
+          /tmp/bin_firmware/*squashfs*.*
         token: ${{ secrets.GITHUB_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

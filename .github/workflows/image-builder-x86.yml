@@ -6,6 +6,7 @@ on:
 
 env:
   PROFILE: generic
+  DEVICE_NAME: X86_64 # Custom display name
   UCI_CUSTOM_FILE: uci-custom-x86
   PACKAGES_LIST_FILE: packages.list-x86
   PACKAGES_FOLDER: packages-x86
@@ -86,10 +87,12 @@ jobs:
     - name: Upload ImmortWrt as release assets
       uses: softprops/action-gh-release@v3
       with:
-        tag_name: X86_64
-        body: ImmortalWrt firmware built by GitHub Action
+        tag_name: ${{ env.DEVICE_NAME }}
+        body: |
+          ImmortalWrt firmware built by GitHub Action
+          Date: ${{ env.RELEASE_DATE }}
         files: |
-          /tmp/bin_firmware/*squashfs-combined*
+          /tmp/bin_firmware/*squashfs*.*
         token: ${{ secrets.GITHUB_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
