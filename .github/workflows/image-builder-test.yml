@@ -89,7 +89,7 @@ jobs:
         tag_name: TEST_Firmware
         body: ImmortalWrt firmware built by GitHub Action
         files: |
-          /tmp/bin_firmware/*.*
+          /tmp/bin_firmware/*squashfs-combined*
         token: ${{ secrets.GITHUB_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
