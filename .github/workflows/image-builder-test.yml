@@ -1,4 +1,4 @@
-name: ImmortalWrt TEST v25.12
+name: TEST Firmware
 on:
   push:
     branches: [ "master" ]
@@ -86,8 +86,8 @@ jobs:
     - name: Upload ImmortWrt as release assets
       uses: softprops/action-gh-release@v3
       with:
-        tag_name: TEST-firmware-${{ env.PROFILE }}
-        body: Built by GitHub Action
+        tag_name: TEST Firmware
+        body: ImmortalWrt firmware built by GitHub Action
         files: |
           /tmp/bin_firmware/*.*
         token: ${{ secrets.GITHUB_TOKEN }}
