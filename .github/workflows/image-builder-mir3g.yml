@@ -103,7 +103,7 @@ jobs:
           ### Release Notes
           ${{ github.event.inputs.remarks}}
         files: |
-          /tmp/bin_firmware/*squashfs*.*
+          /tmp/bin_firmware/*squashfs*
         token: ${{ secrets.GITHUB_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
