@@ -91,20 +91,32 @@ jobs:
 #        name: ImmortalWrt-firmware-${{ env.PROFILE }}-${{ env.FILE_DATE }}
 #        path: /tmp/bin_firmware
 
+    - name: Parse ImageBuilder info
+      run: |
+        VERSION=$(echo "$DOWNLOAD_URL" | grep -oP 'releases/\K[^/]+')
+        TARGET=$(echo "$DOWNLOAD_URL" | grep -oP 'targets/\K[^/]+/[^/]+')
+        TARGET_NAME=$(echo "$DOWNLOAD_URL" | grep -oP 'imagebuilder-[0-9.]+-\K[^.]+')
+
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+        echo "TARGET=$TARGET" >> $GITHUB_ENV
+        echo "TARGET_NAME=$TARGET_NAME" >> $GITHUB_ENV
+
     - name: Upload ImmortWrt as release assets
       uses: softprops/action-gh-release@v3
       with:
-        tag_name: ${{ env.DEVICE_NAME }} - ${{ env.FILE_DATE }}
+        tag_name: ${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
         body: |
-          ## ImmortalWrt Firmware
+          ### ImmortalWrt Firmware
 
           | Item | Value |
           |---|---|
+          | Version | ${{ env.VERSION }} |
           | Device | ${{ env.DEVICE_NAME }} |
+          | Target | ${{ env.TARGET_NAME }} |
           | Profile | ${{ env.PROFILE }} |
           | Build Date | ${{ env.RELEASE_DATE }} |
 
-          ## Notes
+          ### Notes
           ${{ github.event.inputs.remarks }}
         files: |
           /tmp/bin_firmware/*squashfs*
