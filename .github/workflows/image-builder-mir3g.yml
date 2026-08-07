@@ -98,7 +98,7 @@ jobs:
     - name: Upload ImmortWrt as release assets
       uses: softprops/action-gh-release@v3
       with:
-        tag_name: ${{ env.DEVICE_NAME }}-${{ env.FILE_DATE }}
+        tag_name: ${{ env.FILE_DATE }}-${{ env.DEVICE_NAME }}
         body: |
           ### ImmortalWrt Firmware
 
