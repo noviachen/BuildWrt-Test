@@ -12,3 +12,5 @@ luci-i18n-zerotier-zh-cn
 luci-theme-argon
 -automount
 bash
+openssh-client
+openssh-keygen
